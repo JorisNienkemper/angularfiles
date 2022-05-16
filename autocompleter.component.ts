@@ -20,9 +20,17 @@ export class AutocompleterComponent implements OnInit {
   autocomplete() {
       let searchValue= this.query.value;
       for(let obj of this.data){
-        if(obj.x.includes(searchValue)){
-          this.results.push(obj);
+        for(let prop in obj) {
+          if ( obj[prop] && obj[prop].toString().toLowerCase().includes(searchValue.toLowerCase())) {
+            this.results.push(obj);
+            break;
+          }
         }
       }
+  }
+
+  next() {
+    
+    this.results[0].highlight = true;
   }
 }
