@@ -1,0 +1,13 @@
+<div>
+    <input type="text"
+           placeholder="type searchvalue"
+           [formControl]="query"
+           (input)="autocomplete()"
+           (keydown.arrowDown)="next()"
+           (keydown.enter)="select()" >
+  <ul>
+    <li *ngFor="let result of results"
+        [class.highlight]="result.highlight"
+    >{{result.name}}</li>
+  </ul>
+</div>

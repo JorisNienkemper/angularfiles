@@ -87,7 +87,8 @@ describe('tests voor de next() method', ()=> {
     }
   );
 
-  it('should autocomplete all the object of which at least one property contains an e', () => {
+  it('should navigate from the first to the second entry in the result list', () => {
+    //Arrange
     autocompleter.data =[
       {x: 'ho', y:'ha'},
       {x: 'he',y:'hu'},
@@ -97,8 +98,45 @@ describe('tests voor de next() method', ()=> {
     autocompleter.query.setValue('e');
     autocompleter.autocomplete();
     autocompleter.next();
+    //Act
     autocompleter.next();
+    //Assert
     expect(autocompleter.results[0].highlight).toBeUndefined();
     expect(autocompleter.results[1].highlight).toBeTrue();
   });
+
+  it('should navigate  with next from last entry to the first entry', () => {
+    //Arrange
+    autocompleter.data =[
+      {x: 'ho', y:'ha'},
+      {x: 'he',y:'hu'},
+      {x: 'hallo', y:'he'},
+      {x: 'halloe', y:'he'}
+    ]
+    autocompleter.query.setValue('e');
+    autocompleter.autocomplete();
+    for(let result of autocompleter.results){
+      autocompleter.next();
+    }
+    expect(autocompleter.results[0].highlight).toBeUndefined();
+    expect(autocompleter.results[autocompleter.results.length-1].highlight).toBeTrue();
+    //Act
+    autocompleter.next();
+    //Assert
+    expect(autocompleter.results[0].highlight).toBeTrue();
+    expect(autocompleter.results[autocompleter.results.length-1].highlight).toBeUndefined();
+  });
+
+  function p(message:any){
+    console.log(message);
+  }
+  it('what doet de module operator',()=>{
+    p(1%5);
+    p(2%5);
+    p(3%5);
+    p(4%5);
+    p(5%5);
+    p(6%5);
+    p(7%5);
+  })
 })
