@@ -1,5 +1,6 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {FormControl} from "@angular/forms";
+import {HighlighterService} from "../../services/highlighter.service";
 
 @Component({
   selector: 'app-autocompleter',
@@ -15,12 +16,13 @@ export class AutocompleterComponent implements OnInit {
 
   results: any[] =[]
 
-  constructor() { }
+  constructor(private highlighter:HighlighterService) { }
 
   ngOnInit(): void {
   }
 
   autocomplete() {
+      this.results=[];
       let searchValue= this.query.value;
       for(let obj of this.data){
         for(let prop in obj) {
@@ -33,15 +35,7 @@ export class AutocompleterComponent implements OnInit {
   }
 
   next() {
-
-    for(let index =0; index <this.results.length; index++){
-      if(this.results[index].highlight){
-        delete this.results[index].highlight;
-        this.results[(index+1) % this.results.length].highlight=true;
-        return;
-      }
-    }
-    this.results[0].highlight = true;
+    this.highlighter.next(this.results);
   }
 
   select() {
